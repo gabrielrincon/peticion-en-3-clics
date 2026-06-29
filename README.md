@@ -10,6 +10,7 @@ Construir una herramienta sencilla de participación ciudadana que permita organ
 
 ```bash
 npm install
+```
 
 ## Generación de PDF
 
@@ -19,7 +20,10 @@ Ruta:
 
 ```txt
 GET /api/pdf/:causaId
+```
 
 ```bash
 curl -L http://localhost:3000/api/pdf/1 --output peticion-causa-1.pdf
 ```
+
+No hay mas comentarios
