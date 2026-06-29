@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { notificarNuevoApoyo } = require("../services/notificacion.service");
 
 exports.listarApoyosPorCausa = (req, res) => {
   const { causaId } = req.params;
@@ -46,11 +47,27 @@ exports.crearApoyo = (req, res) => {
         });
       }
 
-      res.status(201).json({
+    const apoyoId = this.lastID;
+
+    notificarNuevoApoyo({ causaId: causa_id })
+    .then((resultadoNotificacion) => {
+        res.status(201).json({
         ok: true,
         mensaje: "Apoyo registrado correctamente",
-        id: this.lastID
-      });
+        id: apoyoId,
+        notificacion: resultadoNotificacion
+        });
+    })
+    .catch(() => {
+        res.status(201).json({
+        ok: true,
+        mensaje: "Apoyo registrado correctamente. No se pudo notificar a n8n.",
+        id: apoyoId,
+        notificacion: {
+            ok: false
+        }
+        });
+    });
     }
   );
 };
